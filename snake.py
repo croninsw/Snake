@@ -68,3 +68,8 @@ while key != 27:
 curses.endwin()
 print("\nScore -- " + str(score))
 
+
+
+
+
+# adding a comment to push
