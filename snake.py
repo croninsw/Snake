@@ -1,31 +1,31 @@
 import random
 import curses
 
-s = curses.initscr()
+screen = curses.initscr()
 curses.curs_set(0)
-sh, sw = s.getmaxyx()
-w = curses.newwin(sh, sw, 0, 0)
-w.keypad(1)
-w.timeout(100)
+screenheight, screenwidth = screen.getmaxyx()
+window = curses.newwin(screenheight, screenwidth, 0, 0)
+window.keypad(1)
+window.timeout(100)
 
-snk_x = sw/4
-snk_y = sh/2
+snake_x = screenwidth/4
+snake_y = screenheight/2
 snake = [
-   [snk_y, snk_x],
-   [snk_y, snk_x-1],
-   [snk_y, snk_x-2]
+   [snake_y, snake_x],
+   [snake_y, snake_x-1],
+   [snake_y, snake_x-2]
 ]
 
-food = [sh/2, sw/2]
-w.addch(int(food[0]), int(food[1]), curses.ACS_DIAMOND)
+food = [screenheight/2, screenwidth/2]
+window.addch(int(food[0]), int(food[1]), curses.ACS_DIAMOND)
 
-key = curses.KEY_RIGHT
+key = curses.KEY_DOWN
 
 while True:
-   next_key = w.getch()
+   next_key = window.getch()
    key = key if next_key == -1 else next_key
 
-   if snake[0][0] in [0, sh] or snake[0][1] in [0, sw] or snake[0] in snake[1:]:
+   if snake[0][0] in [0, screenheight] or snake[0][1] in [0, screenwidth] or snake[0] in snake[1:]:
        curses.endwin()
        quit()
 
@@ -45,15 +45,15 @@ while True:
    if snake[0] == food:
        food = None
        while food is None:
-           nf = [
-               random.randint(1, sh-1),
-               random.randint(1, sw-1)
+           newfood = [
+               random.randint(1, screenheight-1),
+               random.randint(1, screenwidth-1)
            ]
-           food = nf if nf not in snake else None
-       w.addch(food[0], food[1], curses.ACS_DIAMOND)
+           food = newfood if newfood not in snake else None
+       window.addch(food[0], food[1], curses.ACS_DIAMOND)
    else:
        tail = snake.pop()
-       w.addch(int(tail[0]), int(tail[1]), ' ')
+       window.addch(int(tail[0]), int(tail[1]), ' ')
 
-   w.addch(int(snake[0][0]), int(snake[0][1]), curses.ACS_CKBOARD)
+   window.addch(int(snake[0][0]), int(snake[0][1]), curses.ACS_CKBOARD)
 
