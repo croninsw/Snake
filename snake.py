@@ -70,6 +70,4 @@ print("\nScore -- " + str(score))
 
 
 
-
-
-# adding a comment to push
+# adding another comment this is weird...
